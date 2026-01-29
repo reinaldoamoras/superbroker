@@ -61,22 +61,6 @@ const MOCK_PROPERTIES: Property[] = [
     imageUrl: 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     features: ['Piscina', 'Wi-Fi', 'Ar Condicionado', 'Vista Mar'],
     integrations: ['airbnb', 'booking']
-  },
-  {
-    id: 'p3',
-    title: 'Studio Compacto Centro',
-    description: 'Ideal para investimento. Próximo ao metrô.',
-    price: 2500,
-    period: 'mensal',
-    location: 'Centro, Curitiba',
-    type: 'Studio',
-    listingType: 'rent',
-    bedrooms: 1,
-    bathrooms: 1,
-    area: 35,
-    imageUrl: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    features: ['Mobiliado', 'Lavanderia Coletiva', 'Coworking'],
-    integrations: ['olx', 'quintoandar']
   }
 ];
 
@@ -91,7 +75,6 @@ export default function App() {
     if (savedUser) {
       setUser(JSON.parse(savedUser));
     } else {
-       // Auto-login for demo purposes
        handleLogin(MOCK_BROKER_USER);
     }
   }, []);
@@ -124,7 +107,7 @@ export default function App() {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center p-6">
         <button onClick={() => handleLogin(MOCK_BROKER_USER)} className="bg-indigo-600 hover:bg-indigo-700 text-white p-10 rounded-3xl font-bold shadow-2xl transition-all hover:scale-105">
-           Acessar SuperBroker IA (Roberto Corretor)
+           Acessar SuperBroker IA
         </button>
       </div>
     );
