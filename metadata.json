@@ -1,7 +1,7 @@
 {
-  "name": "SuperBroker IA",
-  "description": "SuperApp Imobiliário: Venda, Aluguel e Temporada. Integrado com Airbnb/Booking e com Inteligência de Mercado (Espião) para análise de concorrentes.",
+  "name": "SuperAds IA",
+  "description": "A Máquina de Vendas Inteligente. De MEIs a Grandes Corporações: crie campanhas de alta performance em Meta, Google e TikTok com escala ilimitada.",
   "requestFramePermissions": [
-    "geolocation"
+    "microphone"
   ]
 }

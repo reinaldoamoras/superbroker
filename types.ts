@@ -1,197 +1,58 @@
 
-export enum UserRole {
-  BROKER = 'Corretor',
-  AGENCY = 'Imobiliária',
-  BUYER = 'Comprador',
-  INFLUENCER = 'Influencer'
+export enum AppView {
+  LOGIN = 'LOGIN',
+  DASHBOARD = 'DASHBOARD',
+  CREATE_CAMPAIGN = 'CREATE_CAMPAIGN',
+  INTEGRATIONS = 'INTEGRATIONS',
+  OPTIMIZATION = 'OPTIMIZATION',
+  SOCIAL_CONTENT = 'SOCIAL_CONTENT',
+  SETTINGS = 'SETTINGS',
+  MARKET_INTELLIGENCE = 'MARKET_INTELLIGENCE',
+  CRM = 'CRM',
+  LANDING_PAGE = 'LANDING_PAGE',
+  ACADEMY = 'ACADEMY',
+  BLOG = 'BLOG',
+  AFFILIATES = 'AFFILIATES',
+  TERMS = 'TERMS',
+  SALES_ACCELERATOR = 'SALES_ACCELERATOR',
+  SALES_FLOW = 'SALES_FLOW',
+  BRAIN_CENTER = 'BRAIN_CENTER',
+  LAUNCH_CENTER = 'LAUNCH_CENTER'
 }
 
-export type ListingType = 'sale' | 'rent' | 'vacation';
-
-export interface Property {
+export interface FlowStep {
   id: string;
+  type: 'HOOK' | 'QUALIFY' | 'OFFER' | 'CLOSING' | 'REFERRAL';
   title: string;
   description: string;
-  price: number;
-  period?: 'mensal' | 'diária';
-  location: string;
-  type: string;
-  listingType: ListingType;
-  bedrooms: number;
-  bathrooms: number;
-  area: number;
-  imageUrl: string;
-  features: string[];
-  isPremium?: boolean;
-  isDraft?: boolean;
-  integrations?: ('airbnb' | 'booking' | 'zap' | 'olx' | 'quintoandar' | 'botconversa')[];
+  aiScript: string;
+  connections: string[];
 }
 
-export interface FlowNode {
-  id: string;
-  type: 'start' | 'message' | 'condition' | 'action' | 'end';
-  title: string;
-  content: string;
-  nextId?: string;
-  meta?: {
-    delay?: number;
-    platform?: 'whatsapp' | 'instagram' | 'email';
-  };
+export interface IntegrationKey {
+  provider: 'BOTCONVERSA' | 'TYPEBOT' | 'ZAPI' | 'WEBHOOK';
+  key: string;
+  status: 'CONNECTED' | 'DISCONNECTED';
 }
 
-export type CampaignChannel = 'Meta' | 'Google' | 'TikTok' | 'Email' | 'WhatsApp' | 'LinkedIn' | 'Automation';
-
-export interface Campaign {
-  id: string;
-  propertyId: string;
-  platform: CampaignChannel;
-  status: 'draft' | 'scheduled' | 'sending' | 'active' | 'completed' | 'paused' | 'reactivation';
-  budget: number;
-  spent: number;
-  impressions: number;
-  clicks: number;
-  leads: number;
-  openRate?: number;
-  responseRate?: number;
-  adCopy?: string;
-  strategyContext?: string;
-  paymentSource: 'broker_wallet' | 'agency_wallet';
-  ownerId: string;
-  audienceSize?: number;
-  scheduledDate?: string;
-}
-
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: UserRole;
-  credits: number;
-  avatarUrl: string;
-  agencyId?: string;
-  trustScore: number;
-  trustLevel: 'Bronze' | 'Prata' | 'Ouro' | 'Diamante';
-  performance?: {
-    leads: number;
-    sales: number;
-    conversionRate: number;
-    avgCycleDays?: number;
-  };
-  referralCode?: string;
-  partnerEarnings?: number;
-  partnerTier?: 'Iniciante' | 'Embaixador' | 'Lenda';
-}
-
-export interface Lead {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  propertyId: string;
-  status: 'new' | 'contacted' | 'visit' | 'proposal' | 'sold' | 'lost' | 'dormant';
-  origin: 'organic' | 'ads' | 'referral' | 'reactivation';
-  createdAt: string;
-  lastActivityAt?: string;
-  value?: number;
-  score?: number; // 0-100
-  temperature?: 'cold' | 'warm' | 'hot' | 'burning';
-  lastBehavior?: string;
-}
-
-export interface CompetitorAnalysis {
-  competitorName: string;
-  weaknesses: string[];
-  opportunities: string[];
-  suggestedAction: string;
-}
-
-export type ContractType = 'purchase_sale' | 'rental' | 'brokerage_exclusivity' | 'partnership_assoc';
-
-export interface AdCreationContext {
-  preSelectedProperty?: Property;
-  competitorAnalysis?: CompetitorAnalysis;
-}
-
-export interface CommissionRule {
-  id: string;
-  name: string;
-  brokerSplit: number;
-  agencyFee: number;
-  taxRate: number;
-}
-
-export interface Transaction {
-  id: string;
-  date: string;
-  description: string;
-  amount: number;
-  type: 'credit' | 'debit';
-  method: 'pix' | 'card' | 'campaign_spend' | 'platform_fee';
-  status: 'completed' | 'pending' | 'error';
-}
-
-export interface Contract {
-  id: string;
-  title: string;
-  type: ContractType;
-  parties: {
-    partyA: string;
-    partyAEmail?: string;
-    partyB: string;
-    partyBEmail?: string;
-  };
-  status: 'draft' | 'awaiting_signature' | 'signed';
-  envelopeId?: string;
-  content: string;
-  createdAt: string;
-}
-
-export interface Article {
-  id: string;
-  title: string;
-  summary: string;
-  category: string;
-  imageUrl: string;
-  date: string;
-  readTime: string;
-}
-
-export interface TrainingModule {
-  id: string;
-  title: string;
-  description: string;
-  targetRole: UserRole;
-  lessonsCount: number;
-  duration: string;
-  thumbnailUrl: string;
-  progress: number;
-}
-
-export interface TeamMember {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  role: 'Corretor' | 'Gerente' | 'Captador';
-  commissionSplit: number;
-  creci?: string;
-  status: 'active' | 'inactive';
-  joinedAt: string;
-  avatarUrl: string;
-  performance: {
-    activeLeads: number;
-    salesThisMonth: number;
-    conversionRate: number;
-  };
-}
-
-export interface ReferralStat {
-    id: string;
-    type: 'property' | 'platform';
-    name: string;
-    clicks?: number;
-    leads?: number;
-    signups?: number;
-    potentialCommission: number;
-    status: 'active' | 'converted' | 'pending';
-}
+export enum Platform { META = 'Meta Ads', GOOGLE = 'Google Ads', TIKTOK = 'TikTok Ads', LINKEDIN = 'LinkedIn Ads', YOUTUBE = 'YouTube Channel' }
+export interface PlatformWallet { platform: Platform; balance: number; dailySpend: number; }
+export interface CreatorRevenue { platform: Platform; grossRevenue: number; appFee: number; netRevenue: number; status: 'PENDING' | 'PAID'; }
+export enum CampaignObjective { SALES = 'Vendas', LEADS = 'Captação de Leads', TRAFFIC = 'Tráfego/Visitas', ENGAGEMENT = 'Engajamento', BRANDING = 'Reconhecimento de Marca' }
+export type CampaignStatus = 'LEARNING' | 'ACTIVE' | 'PAUSED' | 'COMPLETED' | 'ERROR';
+export interface AdCreative { headline: string; body: string; callToAction: string; visualDescription: string; format: 'IMAGE' | 'VIDEO' | 'CAROUSEL'; }
+export interface AudienceProfile { ageRange: string; gender: string; interests: string[]; behaviors: string[]; location: string; }
+export interface GeneratedCampaign { id: string; status: CampaignStatus; createdAt: string; productName: string; objective: string; audience: AudienceProfile; creatives: AdCreative[]; platforms: Platform[]; budget: number; fee: number; totalCost: number; spent?: number; clicks?: number; }
+export interface Lead { id: string; name: string; phone: string; email: string; status: 'NEW' | 'CONTACTED' | 'CONVERTED' | 'BLOCKED'; lastMessageTime: string; score: number; quality: 'HIGH' | 'MEDIUM' | 'LOW' | 'SPAM'; matchReason: string; platformOrigin: Platform; }
+export interface RecoveryScript { leadName: string; script: string; strategy: string; }
+export interface ReferralGoal { target: number; current: number; reward: string; }
+export interface SocialPost { id: number; platform: string; date: string; content: string; }
+export interface PostAnalysis { postId: number; reason: string; suggestion: 'EXCLUIR' | 'MANTER'; }
+export interface OrganicContentIdea { title: string; caption: string; hashtags: string[]; format: 'FEED' | 'STORY' | 'REELS'; imagePrompt: string; }
+export interface CompetitorAnalysis { suggestedAngle: string; weaknesses: string[]; opportunities: string[]; }
+export interface VoiceCommandResponse { action: 'NAVIGATE' | 'CREATE_CAMPAIGN' | 'UNKNOWN'; reply: string; targetView?: AppView; }
+export interface BlogPost { title: string; category: 'TENDÊNCIA' | 'SUCESSO' | 'INSIGHT'; date: string; readTime: string; summary: string; content: string; }
+export interface YouTubeMetadata { title: string; description: string; tags: string[]; }
+export interface YouTubeTrendAnalysis { topChannels: string[]; viralHooks: string[]; trendingTopics: string[]; editingStyle: string; opportunityGap: string; }
+export interface AcademyLesson { id: number; title: string; duration: string; category: 'INICIANTE' | 'VENDAS' | 'CRIATIVO'; thumbnail: string; }
+export interface AffiliateTransaction { id: string; type: 'COMMISSION' | 'WITHDRAWAL'; amount: number; date: string; description: string; status: 'COMPLETED' | 'PENDING'; }
